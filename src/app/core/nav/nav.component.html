@@ -1,0 +1,12 @@
+<header>
+  <div>
+    <h4>One Up</h4>
+  </div>
+  <nav>
+    <ul>
+      <li *ngFor="let item of menuItems">
+        <a routerLink="{{ item.path }}" routerLinkActive="active">{{ item.label }}</a>
+      </li>
+    </ul>
+  </nav>
+</header>
