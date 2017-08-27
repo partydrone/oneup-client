@@ -4,8 +4,11 @@
   </div>
   <nav>
     <ul>
-      <li *ngFor="let item of menuItems">
-        <a routerLink="{{ item.path }}" routerLinkActive="active">{{ item.label }}</a>
+      <li *ngIf="!auth.isAuthenticated()">
+        <a href="#" (click)="auth.login()">Sign in</a>
+      </li>
+      <li *ngIf="auth.isAuthenticated()">
+        <a href="#" (click)="auth.logout()">Sign out</a>
       </li>
     </ul>
   </nav>

@@ -11,6 +11,7 @@ import { NavComponent } from './nav/nav.component';
     RouterModule
   ],
   declarations: [NavComponent],
+  providers: [],
   exports: [NavComponent]
 })
 export class CoreModule {
