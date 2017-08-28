@@ -5,6 +5,7 @@ import * as auth0 from 'auth0-js';
 
 @Injectable()
 export class AuthService {
+  userProfile: any;
 
   auth0 = new auth0.WebAuth({
     clientID: 'nyoMAnfI6tVhxrqCKrciL1ff44Pm6ZrU',
@@ -12,7 +13,7 @@ export class AuthService {
     responseType: 'token id_token',
     audience: 'https://oneup-events.auth0.com/userinfo',
     redirectUri: 'http://localhost:4200/callback',
-    scope: 'openid'
+    scope: 'openid profile'
   });
 
   constructor(public router: Router) {}
@@ -48,6 +49,21 @@ export class AuthService {
     // access token's expiry time
     const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
     return new Date().getTime() < expiresAt;
+  }
+
+  public getProfile(callback): void {
+    const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
+      throw new Error('Access token must exist to fetch profile.');
+    }
+
+    const self = this;
+    this.auth0.client.userInfo(accessToken, (err, profile) => {
+      if (profile) {
+        self.userProfile = profile;
+      }
+      callback(err, profile);
+    });
   }
 
   private setSession(authResult): void {
